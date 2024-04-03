@@ -13,7 +13,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::with('technologies', 'category')->get();
 
         return response()->json($projects);
     }
@@ -31,7 +31,7 @@ class ProjectController extends Controller
      */
     public function show(string $project)
     {
-        $project = Project::find($project);
+        $project = Project::whereSlug($project)->first();
 
         if (!$project) return response(null, 404);
         return response()->json($project);
